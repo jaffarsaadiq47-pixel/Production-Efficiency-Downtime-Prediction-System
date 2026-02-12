@@ -19,7 +19,12 @@ const Register = () => {
             await authService.register(username, email, password);
             navigate('/login');
         } catch (err) {
-            setError('Registration failed. Username might be taken.');
+            const errorMsg = err.response?.data?.detail ||
+                err.response?.data?.username?.[0] ||
+                err.response?.data?.email?.[0] ||
+                err.response?.data?.password?.[0] ||
+                'Registration failed. Please check your details.';
+            setError(errorMsg);
         } finally {
             setLoading(false);
         }

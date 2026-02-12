@@ -1,6 +1,16 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || '/api/';
+let API_URL = import.meta.env.VITE_API_URL || '/api/';
+
+// Robust URL formatting
+if (API_URL.startsWith('http')) {
+    // If it's a full URL, ensure it ends with /api/
+    if (!API_URL.endsWith('/')) API_URL += '/';
+    if (!API_URL.includes('/api/')) API_URL += 'api/';
+} else if (API_URL !== '/api/') {
+    // If it's just a hostname (like production-backend.onrender.com)
+    API_URL = `https://${API_URL}/api/`;
+}
 
 const api = axios.create({
     baseURL: API_URL,
