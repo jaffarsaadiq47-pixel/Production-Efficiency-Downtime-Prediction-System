@@ -19,11 +19,22 @@ const Register = () => {
             await authService.register(username, email, password);
             navigate('/login');
         } catch (err) {
-            const errorMsg = err.response?.data?.detail ||
-                err.response?.data?.username?.[0] ||
-                err.response?.data?.email?.[0] ||
-                err.response?.data?.password?.[0] ||
-                'Registration failed. Please check your details.';
+            console.error('❌ Registration Error:', err);
+            let errorMsg = 'Registration failed.';
+
+            if (err.response) {
+                // The server responded with a status code
+                errorMsg = err.response.data?.detail ||
+                    err.response.data?.username?.[0] ||
+                    err.response.data?.email?.[0] ||
+                    err.response.data?.password?.[0] ||
+                    `Server Error: ${err.response.status}`;
+            } else if (err.request) {
+                // The request was made but no response was received
+                errorMsg = 'Connection Error: Cannot reach the backend. Please check VITE_API_URL.';
+            } else {
+                errorMsg = err.message;
+            }
             setError(errorMsg);
         } finally {
             setLoading(false);
