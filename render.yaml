@@ -2,6 +2,7 @@ services:
   # Backend
   - type: web
     name: production-backend
+    runtime: python
     rootDir: backend
     buildCommand: ./build.sh
     startCommand: gunicorn core.wsgi:application
@@ -17,18 +18,18 @@ services:
       - key: DEBUG
         value: "false"
 
-staticSites:
   # Frontend
-  - name: production-frontend
+  - type: web
+    name: production-frontend
+    runtime: static
     rootDir: frontend
     buildCommand: npm install && npm run build
-    staticPublishPath: dist
+    publishPath: dist
     envVars:
       - key: VITE_API_URL
         fromService:
           type: web
           name: production-backend
-          property: host
 
 databases:
   - name: production-db
