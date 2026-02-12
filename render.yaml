@@ -21,10 +21,8 @@ services:
         value: "false"
 
   # Frontend
-  - type: web
+  - type: static
     name: production-frontend
-    runtime: static
-    plan: free
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
