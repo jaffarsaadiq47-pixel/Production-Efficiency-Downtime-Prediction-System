@@ -9,7 +9,10 @@ if (API_URL.startsWith('http')) {
     if (!API_URL.includes('/api/')) API_URL += 'api/';
 } else if (API_URL !== '/api/') {
     // If it's just a hostname (like production-backend.onrender.com)
-    API_URL = `https://${API_URL}/api/`;
+}
+
+if (import.meta.env.PROD && API_URL === '/api/') {
+    console.error('⚠️ CRITICAL: VITE_API_URL is not set! The app will try to call the frontend server for API requests, which will fail.');
 }
 
 console.log('📡 API Base URL:', API_URL);
