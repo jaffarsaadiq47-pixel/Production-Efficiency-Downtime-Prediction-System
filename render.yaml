@@ -31,7 +31,7 @@ services:
         fromService:
           type: web
           name: production-backend
-          property: url
+          property: host
 
 databases:
   - name: production-db
