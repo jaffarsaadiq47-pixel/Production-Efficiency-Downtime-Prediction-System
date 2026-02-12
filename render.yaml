@@ -19,13 +19,13 @@ services:
       - key: DEBUG
         value: "false"
 
-staticSites:
   # Frontend
-  - name: production-frontend
+  - type: web
+    name: production-frontend
     runtime: static
     rootDir: frontend
     buildCommand: npm install && npm run build
-    staticPublishPath: dist
+    publishPath: dist
     envVars:
       - key: VITE_API_URL
         fromService:
